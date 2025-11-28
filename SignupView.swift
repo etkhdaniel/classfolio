@@ -7,11 +7,17 @@ struct SignupView: View {
     @State private var confirmPassword = ""
     @State private var newsletterOptIn = true
     @State private var showLogin = false
+    @State private var navigateToHome = false
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 Header()
+
+                NavigationLink(destination: HomeView(), isActive: $navigateToHome) {
+                    EmptyView()
+                }
+                .hidden()
 
                 VStack(spacing: 16) {
                     TextField("Full name", text: $fullName)
@@ -81,7 +87,7 @@ struct SignupView: View {
             }
             .padding(24)
             .sheet(isPresented: $showLogin) {
-                LoginView()
+                LoginView(onLoginSuccess: handleAuthentication)
             }
         }
     }
@@ -92,6 +98,12 @@ struct SignupView: View {
 
     private func submitSignup() {
         // Hook up signup API call here
+        handleAuthentication()
+    }
+
+    private func handleAuthentication() {
+        navigateToHome = true
+        showLogin = false
     }
 }
 
