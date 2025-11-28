@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    var onLoginSuccess: () -> Void = {}
     @Environment(\.dismiss) private var dismiss
     @State private var email = ""
     @State private var password = ""
@@ -77,6 +78,7 @@ struct LoginView: View {
 
     private func submitLogin() {
         // Hook up login API call here
+        onLoginSuccess()
         dismiss()
     }
 }
